@@ -53,15 +53,17 @@ class Restaurant {
         var monthSales = 0
         var daySales = 0
         console.log(this.salesList[0])
-        console.log(this.salesList[0].name)
-        console.log(this.salesList[0].name.date)
+        console.log(this.salesList[0].customer.name)
+        console.log(this.salesList[0].customer.date)
         for (var i=0; i < this.salesList.length; i++) {
-            if (this.salesList[i].name.date.year == year) {
-                yearSales += this.salesList[i].checkedPrice
-                if (this.salesList[i].name.date.month == month) {
-                    monthSales += this.salesList[i].checkedPrice
-                    if (this.salesList[i].name.date.day == day) {
-                        daySales += this.salesList[i].checkedPrice
+            // nameプロパティ内にdateプロパティはない。ただの文字列となる
+            if (this.salesList[i].customer.date.year == year) {
+                // プロパティはcheckedPriceではなくpriceでは？
+                yearSales += this.salesList[i].price
+                if (this.salesList[i].customer.date.month == month) {
+                    monthSales += this.salesList[i].price
+                    if (this.salesList[i].customer.date.day == day) {
+                        daySales += this.salesList[i].price
                     }
                 }
             }
@@ -111,7 +113,10 @@ class Customer {
 
         this.restaurant.salesList.push(
             {
-                name: this.name,
+                 // nameプロパティ内にdateプロパティはない。ただの文字列となる。
+                 // そこで、nameプロパティではなくcustomerプロパティを用意し、
+                //  自分自身」への参照を渡すことで、各customerのdateプロパティを参照可能になる。
+                customer: this,
                 price: checkedPrice
             }
         )
